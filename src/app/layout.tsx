@@ -15,13 +15,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Frontend Lovers",
   description: "Coding love and having fun",
-  icons: [
-    {
-      url: "/favicon.ico",
-      rel: "icon",
-      type: "image/svg+xml",
-    },
-  ],
 };
 
 export default function RootLayout({
