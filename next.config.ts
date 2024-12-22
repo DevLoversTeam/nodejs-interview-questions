@@ -1,4 +1,8 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    turboMode: false,
+  },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg")
@@ -8,9 +12,8 @@ module.exports = {
       {
         ...fileLoaderRule,
         test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
+        resourceQuery: /url/,
       },
-
       {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
@@ -24,3 +27,5 @@ module.exports = {
     return config;
   },
 };
+
+export default nextConfig;
