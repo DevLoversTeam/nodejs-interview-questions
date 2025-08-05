@@ -105,7 +105,7 @@ Node.js підходить для чату або API з великою кіль
 </details>
 
 <details>
-<summary>6. Поясніть, що означає 'неблокуюче' (non-blocking) у Node.js.</summary>
+<summary>6. Поясніть, що означає неблокуюче (non-blocking) у Node.js.</summary>
 
 #### Node.js
 
