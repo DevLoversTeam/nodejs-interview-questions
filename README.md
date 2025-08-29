@@ -444,11 +444,34 @@ console.log(`Hello, ${name}!`); });
 </details>
 
 <details>
-<summary>18. ???</summary>
+<summary>18. Що таке модуль QueryString у Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+- Призначення: модуль querystring використовується для роботи з рядками запитів
+  (URL query strings).
+
+- Можливості:
+
+  - перетворює query string у JavaScript-об’єкт
+
+  - формує query string з об’єкта
+
+#### Приклад:
+
+```js
+const querystring = require('querystring');
+
+const parsed = querystring.parse('name=Viktor&age=30'); console.log(parsed); //
+{ name: 'Viktor', age: '30' }
+
+const str = querystring.stringify({ city: 'Kyiv', lang: 'ua' });
+console.log(str); // city=Kyiv&lang=ua
+```
+
+Практика: у сучасних застосунках частіше використовують URLSearchParams
+(стандартний Web API у Node.js 10+), але querystring усе ще застосовують у
+легасі-коді.
 
 </details>
 
