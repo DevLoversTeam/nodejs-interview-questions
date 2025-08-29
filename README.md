@@ -221,7 +221,300 @@ Lodash) і управління залежностями проєкту.
 </details>
 
 <details>
-<summary>11. ???</summary>
+<summary>11. Опишіть деякі з основних модулів Node.js</summary>
+
+#### Node.js
+
+У Node.js є вбудовані модулі, які не потребують встановлення через npm:
+
+- `fs (File System):` робота з файлами (читання, запис, стрімінг).
+
+- `http / https:` створення вебсерверів та робота з HTTP(S)-запитами.
+
+- `path:` робота з файловими шляхами, кросплатформене вирівнювання.
+
+- `os:` інформація про операційну систему (CPU, пам’ять, мережа).
+
+- `events:` реалізація подієвої моделі через EventEmitter.
+
+- `crypto:` шифрування, хешування, генерація ключів.
+
+</details>
+
+<details>
+<summary>12. Як створити простий сервер у Node.js за допомогою модуля HTTP?</summary>
+
+#### Node.js
+
+1. Імпортувати модуль: `const http = require('http');`
+
+2. Створити сервер через `http.createServer()`.
+
+3. Визначити обробку запитів (`req`, `res`).
+
+4. Запустити сервер на вказаному порту (`server.listen(3000)`).
+
+#### Код-приклад:
+
+```JavaScript
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello, Node.js server!');
+});
+
+server.listen(3000, () => {
+  console.log('Server is running at http://localhost:3000');
+});
+```
+
+Практика: такий підхід підходить для демо чи дуже простих API. У реальних
+проєктах зазвичай використовують Express.js для зручності.
+
+</details>
+
+<details>
+<summary>13. Поясніть призначення модуля File System (fs).</summary>
+
+#### Node.js
+
+- Призначення: модуль `fs` дозволяє працювати з файловою системою напряму з
+  Node.js.
+
+- Можливості:
+
+  - читання (`fs.readFile`, `fs.createReadStream`)
+
+  - запис (`fs.writeFile`, `fs.createWriteStream`)
+
+  - створення/видалення файлів і директорій
+
+  - робота в синхронному й асинхронному режимі
+
+- Практика: використовується для завантаження/збереження файлів користувача,
+  логування, роботи з конфігами.
+
+#### Приклад:
+
+```JavaScript
+const fs = require('fs');
+
+fs.readFile('data.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+```
+
+</details>
+
+<details>
+<summary>14. Що таке клас Buffer у Node.js?</summary>
+
+#### Node.js
+
+- Призначення: `Buffer` — це клас у Node.js для роботи з двійковими даними (raw
+  data).
+
+- Особливості:
+
+  - зберігає дані у вигляді байтів (подібно до масиву байтів у C).
+
+  - використовується для обробки файлів, мережевих потоків, зображень тощо.
+
+  - працює поза V8 heap, напряму в пам’яті.
+
+- Практика: корисний для читання/запису файлів (`fs`), роботи з TCP/UDP
+  сокетами, обробки даних у потоках.
+
+#### Приклад:
+
+```JavaScript
+const buf = Buffer.from('Hello');
+console.log(buf);        // <Buffer 48 65 6c 6c 6f>
+console.log(buf.toString()); // Hello
+```
+
+</details>
+
+<details>
+<summary>15. Що таке стріми (streams) у Node.js і які їхні типи?</summary>
+
+#### Node.js
+
+- Призначення: Стріми — це інтерфейс для роботи з потоковими даними по частинах,
+  без завантаження всього в пам’ять. Використовуються для файлів,
+  HTTP-запитів/відповідей, сокетів.
+
+- Перевага: ефективна робота з великими обсягами даних.
+
+#### Типи стрімів у Node.js:
+
+1. Readable — джерело даних (читання файлів, вхідні HTTP-запити).
+
+2. Writable — приймач даних (запис у файл, вихідні HTTP-відповіді).
+
+3. Duplex — одночасно читання і запис (TCP-сокети).
+
+4. Transform — Duplex із можливістю трансформації даних під час потоку
+   (наприклад, стиснення через zlib).
+
+#### Приклад з практики:
+
+```JavaScript
+const fs = require('fs');
+
+const readStream = fs.createReadStream('input.txt');
+const writeStream = fs.createWriteStream('output.txt');
+
+readStream.pipe(writeStream); // копіює файл через стріми
+```
+
+</details>
+
+<details>
+<summary>16. Як у Node.js читати та записувати файли?</summary>
+
+#### Node.js
+
+У Node.js для цього використовується модуль fs (File System).
+
+1. Асинхронне читання/запис (рекомендовано):
+
+```JavaScript
+const fs = require('fs');
+
+// Читання
+fs.readFile('input.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+
+// Запис
+fs.writeFile('output.txt', 'Hello Node.js', (err) => {
+  if (err) throw err;
+  console.log('Файл збережено!');
+});
+```
+
+2. Синхронні методи (блокують event loop, краще не використовувати у продакшн):
+
+```JavaScript
+const data = fs.readFileSync('input.txt', 'utf8');
+fs.writeFileSync('output.txt', 'Hello Sync');
+```
+
+#### Практика:
+
+- асинхронні методи застосовуються в більшості сценаріїв (вебсервери, API).
+
+- синхронні зручні для скриптів або ініціалізації конфігів при старті.
+
+</details>
+
+<details>
+<summary>17. Як використовувати EventEmitter у Node.js?</summary>
+
+#### Node.js
+
+- EventEmitter — це клас із модуля events, який реалізує подієву модель у
+  Node.js.
+
+- Дозволяє створювати власні події та підписників (listeners).
+
+#### Приклад використання:
+
+```JavaScript
+const EventEmitter = require('events'); const emitter = new EventEmitter();
+
+// підписка на подію emitter.on('greet', (name) => {
+console.log(`Hello, ${name}!`); });
+
+// виклик події emitter.emit('greet', 'Viktor');
+```
+
+#### Практика:
+
+- Використовується у внутрішніх механізмах Node.js (наприклад, стріми побудовані
+  на EventEmitter).
+
+- У проєктах застосовується для кастомних івентів — наприклад, логування,
+  повідомлення між модулями.
+
+</details>
+
+<details>
+<summary>18. Що таке модуль QueryString у Node.js?</summary>
+
+#### Node.js
+
+- Призначення: модуль querystring використовується для роботи з рядками запитів
+  (URL query strings).
+
+- Можливості:
+
+  - перетворює query string у JavaScript-об’єкт
+
+  - формує query string з об’єкта
+
+#### Приклад:
+
+```js
+const querystring = require('querystring');
+
+const parsed = querystring.parse('name=Viktor&age=30'); console.log(parsed); //
+{ name: 'Viktor', age: '30' }
+
+const str = querystring.stringify({ city: 'Kyiv', lang: 'ua' });
+console.log(str); // city=Kyiv&lang=ua
+```
+
+Практика: у сучасних застосунках частіше використовують URLSearchParams
+(стандартний Web API у Node.js 10+), але querystring усе ще застосовують у
+легасі-коді.
+
+</details>
+
+<details>
+<summary>19. Як у Node.js керувати операціями з файловими шляхами?</summary>
+
+#### Node.js
+
+- У Node.js для цього є вбудований модуль path, який забезпечує кросплатформену
+  роботу з шляхами.
+
+#### Основні методи:
+
+- `path.join([...paths])` — об’єднання шляхів у правильному форматі.
+
+- `path.resolve([...paths])` — повертає абсолютний шлях.
+
+- `path.basename(path)` — отримати ім’я файлу.
+
+- `path.dirname(path)` — отримати директорію.
+
+- `path.extname(path)` — отримати розширення файлу.
+
+#### Приклад:
+
+```JavaScript
+const path = require('path');
+
+const filePath = '/users/viktor/docs/file.txt';
+
+console.log(path.basename(filePath)); // file.txt
+console.log(path.dirname(filePath));  // /users/viktor/docs
+console.log(path.extname(filePath));  // .txt
+console.log(path.join('users', 'viktor', 'docs')); // users/viktor/docs
+```
+
+Практика: path застосовується для роботи з файлами у різних ОС (Windows → \,
+Linux/macOS → /).
+
+</details>
+
+<details>
+<summary>20. ???</summary>
 
 #### Node.js
 
