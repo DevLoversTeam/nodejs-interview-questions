@@ -221,7 +221,100 @@ Lodash) і управління залежностями проєкту.
 </details>
 
 <details>
-<summary>11. ???</summary>
+<summary>11. Опишіть деякі з основних модулів Node.js</summary>
+
+#### Node.js
+
+У Node.js є вбудовані модулі, які не потребують встановлення через npm:
+
+- `fs (File System):` робота з файлами (читання, запис, стрімінг).
+
+- `http / https:` створення вебсерверів та робота з HTTP(S)-запитами.
+
+- `path:` робота з файловими шляхами, кросплатформене вирівнювання.
+
+- `os:` інформація про операційну систему (CPU, пам’ять, мережа).
+
+- `events:` реалізація подієвої моделі через EventEmitter.
+
+- `crypto:` шифрування, хешування, генерація ключів.
+
+</details>
+
+<details>
+<summary>12. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>13. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>14. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>15. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>16. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>17. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>18. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>19. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>20. ???</summary>
 
 #### Node.js
 
