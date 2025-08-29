@@ -476,11 +476,40 @@ console.log(str); // city=Kyiv&lang=ua
 </details>
 
 <details>
-<summary>19. ???</summary>
+<summary>19. Як у Node.js керувати операціями з файловими шляхами?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+- У Node.js для цього є вбудований модуль path, який забезпечує кросплатформену
+  роботу з шляхами.
+
+#### Основні методи:
+
+- `path.join([...paths])` — об’єднання шляхів у правильному форматі.
+
+- `path.resolve([...paths])` — повертає абсолютний шлях.
+
+- `path.basename(path)` — отримати ім’я файлу.
+
+- `path.dirname(path)` — отримати директорію.
+
+- `path.extname(path)` — отримати розширення файлу.
+
+#### Приклад:
+
+```JavaScript
+const path = require('path');
+
+const filePath = '/users/viktor/docs/file.txt';
+
+console.log(path.basename(filePath)); // file.txt
+console.log(path.dirname(filePath));  // /users/viktor/docs
+console.log(path.extname(filePath));  // .txt
+console.log(path.join('users', 'viktor', 'docs')); // users/viktor/docs
+```
+
+Практика: path застосовується для роботи з файлами у різних ОС (Windows → \,
+Linux/macOS → /).
 
 </details>
 
