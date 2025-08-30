@@ -786,11 +786,57 @@ http модуль використовують рідко.
 </details>
 
 <details>
-<summary>27. ???</summary>
+<summary>27. Як створити RESTful API за допомогою Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+1. Використати Express.js (спрощує маршрутизацію та обробку запитів).
+
+2. Визначити ендпоінти для CRUD-операцій (Create, Read, Update, Delete).
+
+3. Використовувати JSON як формат обміну даними.
+
+4. Опціонально: підключити базу даних (MongoDB, PostgreSQL, MySQL).
+
+#### Приклад REST API (Express.js):
+
+```JavaScript
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+// Read (GET)
+app.get('/users', (req, res) => {
+  res.json([{ id: 1, name: 'Alice' }]);
+});
+
+// Create (POST)
+app.post('/users', (req, res) => {
+  const newUser = req.body;
+  res.status(201).json(newUser);
+});
+
+// Update (PUT)
+app.put('/users/:id', (req, res) => {
+  res.json({ id: req.params.id, ...req.body });
+});
+
+// Delete (DELETE)
+app.delete('/users/:id', (req, res) => {
+  res.status(204).send();
+});
+
+app.listen(3000, () => console.log('API running on http://localhost:3000'));
+```
+
+#### Ключові моменти:
+
+- Кожен ендпоінт відповідає певній операції над ресурсом.
+
+- Дані передаються у форматі JSON.
+
+- Легко масштабувати та інтегрувати з базами даних і фронтендом.
 
 </details>
 
