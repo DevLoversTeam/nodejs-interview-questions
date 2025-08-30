@@ -882,11 +882,35 @@ app.listen(3000, () => console.log('Server running on http://localhost:3000'));
 </details>
 
 <details>
-<summary>29. ???</summary>
+<summary>29. Як забезпечити безпеку HTTP-заголовків у Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+1. Використати `helmet` — популярний middleware для Express.js, який автоматично
+   додає та налаштовує безпечні HTTP-заголовки.
+
+```JavaScript
+const express = require('express');
+const helmet = require('helmet');
+const app = express();
+
+app.use(helmet()); // додає набір захисних заголовків
+```
+
+2. Основні заголовки для безпеки:
+
+- Content-Security-Policy (CSP) → захист від XSS.
+
+- X-Frame-Options → запобігає clickjacking.
+
+- X-Content-Type-Options → блокує MIME sniffing.
+
+- Strict-Transport-Security (HSTS) → примусове використання HTTPS.
+
+- Referrer-Policy → контроль витоку інформації у реферері.
+
+**Ключова ідея:** у Node.js зазвичай не пишуть заголовки вручну — helmet робить
+це централізовано та безпечно.
 
 </details>
 
