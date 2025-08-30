@@ -841,11 +841,43 @@ app.listen(3000, () => console.log('API running on http://localhost:3000'));
 </details>
 
 <details>
-<summary>28. ???</summary>
+<summary>28. Що таке middleware у контексті Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+**Middleware** — це функція, яка виконується між отриманням HTTP-запиту і
+відправкою відповіді в Express.js або іншому Node.js-фреймворку.
+
+- Вона може змінювати `req` і `res`, виконувати логіку (логування,
+  аутентифікація, валідація, обробка помилок) і викликати `next()` для передачі
+  керування далі.
+
+#### Приклад middleware в Express.js:
+
+```JavaScript
+const express = require('express');
+const app = express();
+
+// Кастомне middleware для логування
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next(); // передати керування наступному middleware/роуту
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello, Middleware!');
+});
+
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+```
+
+#### Ключові приклади middleware:
+
+- Вбудовані (`express.json()`, `express.urlencoded()`)
+
+- Сторонні (наприклад, `morgan`, `cors`)
+
+- Кастомні (написані вручну під бізнес-логіку)
 
 </details>
 
