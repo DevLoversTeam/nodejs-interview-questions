@@ -1313,11 +1313,73 @@ connection.end();
 </details>
 
 <details>
-<summary>40. ???</summary>
+<summary>40. Поясніть, як NoSQL бази даних, наприклад MongoDB, можна використовувати з Node.js.</summary>
 
 #### Node.js
 
-- Coming soon...😎
+- **MongoDB** — документно-орієнтована база даних, яка зберігає дані у форматі
+  JSON-подібних документів (BSON).
+
+- У Node.js найчастіше використовують бібліотеки:
+
+  - mongodb — офіційний драйвер для роботи з MongoDB.
+
+  - Mongoose — ODM (Object Data Modeling), що додає схеми, валідацію та методи
+    моделі.
+
+#### Приклад із mongodb (raw driver):
+
+```JavaScript
+const { MongoClient } = require("mongodb");
+const url = "mongodb://localhost:27017";
+const client = new MongoClient(url);
+
+async function run() {
+  try {
+    await client.connect();
+    console.log("MongoDB підключено!");
+    const db = client.db("testdb");
+    const users = db.collection("users");
+
+    // Створення документа
+    await users.insertOne({ name: "Alice", age: 30 });
+
+    // Читання документів
+    const result = await users.find({}).toArray();
+    console.log(result);
+  } finally {
+    await client.close();
+  }
+}
+
+run().catch(console.error);
+```
+
+#### Приклад із Mongoose:
+
+```JavaScript
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/testdb");
+
+const userSchema = new mongoose.Schema({ name: String, age: Number });
+const User = mongoose.model("User", userSchema);
+
+async function run() {
+  const alice = new User({ name: "Alice", age: 30 });
+  await alice.save();
+  const users = await User.find();
+  console.log(users);
+}
+run();
+```
+
+#### Переваги NoSQL + Node.js:
+
+- JSON-подібна структура зручно інтегрується з JavaScript.
+
+- Висока масштабованість та швидке прототипування.
+
+- Легка робота з динамічною схемою даних.
 
 </details>
 
