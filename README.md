@@ -915,11 +915,67 @@ app.use(helmet()); // додає набір захисних заголовкі�
 </details>
 
 <details>
-<summary>30. ???</summary>
+<summary>30. Як у Node.js обробляються помилки?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+1. **Синхронний код** → через `try/catch`:
+
+```JavaScript
+try {
+  throw new Error("Something went wrong");
+} catch (err) {
+  console.error(err.message);
+}
+```
+
+2. **Асинхронний код з callback** → помилка передається першим аргументом:
+
+```JavaScript
+fs.readFile('file.txt', (err, data) => {
+  if (err) {
+    return console.error("Помилка:", err);
+  }
+  console.log("Дані:", data.toString());
+});
+```
+
+3. **Promises** → через `.catch()`:
+
+```JavaScript
+someAsyncTask()
+  .then(result => console.log(result))
+  .catch(err => console.error("Помилка:", err));
+```
+
+4. `async/await` → з `try/catch`:
+
+```JavaScript
+async function run() {
+  try {
+    const data = await someAsyncTask();
+    console.log(data);
+  } catch (err) {
+    console.error("Помилка:", err);
+  }
+}
+run();
+```
+
+5. **Глобальна обробка (як крайній захід):**
+
+```JavaScript
+process.on('uncaughtException', err => {
+  console.error('Невловлена помилка:', err);
+});
+
+process.on('unhandledRejection', err => {
+  console.error('Невловлене відхилення Promise:', err);
+});
+```
+
+Головний принцип: завжди обробляти помилки на місці, а глобальні хендлери
+використовувати тільки як резервний варіант.
 
 </details>
 
