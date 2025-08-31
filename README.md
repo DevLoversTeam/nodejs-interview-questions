@@ -1266,11 +1266,49 @@ HTTP-запити й перевіряти реальні відповіді.
 </details>
 
 <details>
-<summary>39. ???</summary>
+<summary>39. Як підключити базу даних MySQL до Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+- Для роботи з MySQL у Node.js використовують клієнтські бібліотеки,
+  найпопулярніші: mysql2 або sequelize (ORM).
+
+- Підключення відбувається через створення з’єднання (connection) або пулу
+  з’єднань (connection pool).
+
+- Далі можна виконувати SQL-запити або працювати через ORM.
+
+#### Приклад із mysql2:
+
+```JavaScript
+const mysql = require("mysql2");
+
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "testdb"
+});
+
+connection.connect((err) => {
+  if (err) {
+    console.error("Помилка підключення:", err);
+    return;
+  }
+  console.log("MySQL підключено!");
+});
+
+// Виконання запиту
+connection.query("SELECT * FROM users", (err, results) => {
+  if (err) throw err;
+  console.log(results);
+});
+
+connection.end();
+```
+
+У продакшні зазвичай використовують пул з’єднань для ефективності й ORM
+(Sequelize, TypeORM, Prisma) для зручності.
 
 </details>
 
