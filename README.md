@@ -1220,11 +1220,48 @@ test("getUser returns mocked user", () => {
 </details>
 
 <details>
-<summary>38. ???</summary>
+<summary>38. Як протестувати HTTP-сервер у Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+- Тестування HTTP-сервера зазвичай роблять за допомогою інтеграційних тестів,
+  які перевіряють відповіді на реальні запити.
+
+- **Основні підходи:**
+
+1. Використати вбудований модуль http + бібліотеки для запитів (supertest,
+   axios, node-fetch).
+
+2. Писати тести через фреймворки — Mocha, Jest, Jasmine.
+
+3. Перевіряти статус-код, заголовки, тіло відповіді.
+
+#### Приклад із supertest + Jest:
+
+```JavaScript
+// app.js
+const express = require("express");
+const app = express();
+
+app.get("/hello", (req, res) => {
+  res.status(200).json({ message: "Hello World" });
+});
+
+module.exports = app;
+
+// app.test.js
+const request = require("supertest");
+const app = require("./app");
+
+test("GET /hello should return Hello World", async () => {
+  const res = await request(app).get("/hello");
+  expect(res.statusCode).toBe(200);
+  expect(res.body.message).toBe("Hello World");
+});
+```
+
+Такий підхід дозволяє запускати сервер у тестовому середовищі, робити
+HTTP-запити й перевіряти реальні відповіді.
 
 </details>
 
