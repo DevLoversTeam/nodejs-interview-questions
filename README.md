@@ -1384,11 +1384,55 @@ run();
 </details>
 
 <details>
-<summary>41. ???</summary>
+<summary>41. Яка роль ORM у Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+- ORM (Object-Relational Mapping) — це шар між Node.js і базою даних, який
+  дозволяє працювати з даними як з JavaScript-об’єктами, а не писати чисті
+  SQL-запити.
+
+#### Основні ролі:
+
+1. Абстрагування SQL – розробник маніпулює об’єктами, а ORM генерує SQL-запити.
+
+2. Валідація та схема даних – багато ORM підтримують схеми, типи даних і
+   валідацію.
+
+3. Міграції – керування змінами у структурі бази.
+
+4. Взаємозв’язки – легко працювати з зв’язками між таблицями (One-to-Many,
+   Many-to-Many).
+
+#### Популярні ORM у Node.js:
+
+- **Sequelize** – для SQL баз (MySQL, PostgreSQL, SQLite).
+
+- **TypeORM** – підтримує TypeScript, SQL та NoSQL (MongoDB).
+
+- **Prisma** – сучасний ORM з генерацією типів TypeScript.
+
+#### Приклад (Sequelize):
+
+```JavaScript
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = new Sequelize('mysql://user:pass@localhost:3306/testdb');
+
+const User = sequelize.define('User', {
+  name: DataTypes.STRING,
+  age: DataTypes.INTEGER
+});
+
+(async () => {
+  await sequelize.sync();
+  await User.create({ name: 'Alice', age: 30 });
+  const users = await User.findAll();
+  console.log(users);
+})();
+```
+
+Ключова ідея: ORM спрощує роботу з базами даних, підвищує безпеку (захист від
+SQL injection) і робить код більш читабельним.
 
 </details>
 
