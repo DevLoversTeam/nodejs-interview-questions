@@ -1644,11 +1644,37 @@ node --inspect index.js
 </details>
 
 <details>
-<summary>48. ???</summary>
+<summary>48. Як працюють Worker Threads у Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+- **Призначення:** Worker Threads дозволяють виконувати JavaScript-код у
+  паралельних потоках в межах одного процесу Node.js. Це вирішує проблему
+  обмежень однопоточного Event Loop для CPU-інтенсивних задач.
+
+- **Як працює:**
+
+  - Кожен Worker має власний Event Loop, пам’ять та виконання.
+
+  - Обмін даними відбувається через message passing (postMessage /
+    on('message')) або SharedArrayBuffer для спільної пам’яті.
+
+  - Основний потік (main thread) створює робітників через модуль
+    `worker_threads`.
+
+#### Приклад:
+
+```JavaScript
+const { Worker } = require('worker_threads');
+
+const worker = new Worker('./worker.js');
+worker.on('message', msg => console.log(`Message: ${msg}`));
+worker.postMessage('start');
+```
+
+Ключова ідея: Worker Threads = багатопоточність у Node.js для CPU-heavy задач
+(наприклад, хешування, обчислення), тоді як I/O краще віддавати Event Loop +
+async I/O.
 
 </details>
 
