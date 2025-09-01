@@ -514,7 +514,408 @@ Linux/macOS → /).
 </details>
 
 <details>
-<summary>20. ???</summary>
+<summary>20. Що таке колбеки (callbacks) у Node.js?</summary>
+
+#### Node.js
+
+**Колбек** — це функція, яка передається як аргумент іншій функції і
+викликається після завершення асинхронної операції.
+
+- У Node.js вони широко застосовуються для роботи з I/O (файли, мережа, база
+  даних).
+
+- Стандартний підхід: error-first callback — перший аргумент `err`, другий —
+  результат.
+
+#### Приклад:
+
+```JavaScript
+const fs = require('fs');
+
+fs.readFile('data.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error('Помилка:', err);
+    return;
+  }
+  console.log('Вміст файлу:', data);
+});
+```
+
+Практика: Колбеки — основа асинхронності у Node.js. Але через проблему "callback
+hell" у сучасних проєктах переважно використовують Promises та async/await.
+
+</details>
+
+<details>
+<summary>21. Що таке callback hell і як його уникнути?</summary>
+
+#### Node.js
+
+**Callback hell** — це ситуація, коли в коді є багато вкладених колбеків, що
+ускладнює читання, відлагодження та підтримку.
+
+#### Приклад:
+
+```JavaScript
+fs.readFile('a.txt', (err, dataA) => {
+  fs.readFile('b.txt', (err, dataB) => {
+    fs.readFile('c.txt', (err, dataC) => {
+      console.log(dataA, dataB, dataC);
+    });
+  });
+});
+```
+
+#### Як уникнути:
+
+1. Використовувати Promises — ланцюжки .then().
+
+2. Застосовувати async/await — більш лаконічний та зрозумілий синтаксис.
+
+3. Розбивати код на менші функції (modularization).
+
+4. Використовувати готові бібліотеки для керування асинхронністю (async,
+   bluebird).
+
+Сучасна практика: майже всюди застосовують async/await, бо це найчитабельніший
+спосіб писати асинхронний код у Node.js.
+
+</details>
+
+<details>
+<summary>22. Поясніть, що таке проміси (Promises) у Node.js.</summary>
+
+#### Node.js
+
+**Promise** — це об’єкт, який представляє результат асинхронної операції:
+успішний (`resolved`) або з помилкою (`rejected`).
+
+- Дозволяє уникнути вкладених колбеків і писати асинхронний код більш
+  структуровано.
+
+- Стани проміса:
+
+1. `pending` (очікування)
+
+2. `fulfilled` (успішно виконано)
+
+3. `rejected` (помилка)
+
+#### Приклад:
+
+```JavaScript
+const fs = require('fs').promises;
+
+fs.readFile('data.txt', 'utf8')
+  .then(data => console.log('Вміст:', data))
+  .catch(err => console.error('Помилка:', err));
+```
+
+#### Практика:
+
+- Використовуються для роботи з асинхронними API (fetch, fs.promises, БД).
+
+- У сучасному коді зазвичай поєднуються з async/await, що робить код ще
+  чистішим.
+
+</details>
+
+<details>
+<summary>23. Як працюють функції async/await у Node.js?</summary>
+
+#### Node.js
+
+- `async` — позначає функцію, яка завжди повертає Promise.
+
+- `await` — зупиняє виконання всередині async-функції, поки Promise не буде
+  виконано (`resolved` або `rejected`).
+
+- Це синтаксичний цукор над Promises, що робить асинхронний код схожим на
+  синхронний.
+
+Приклад:
+
+```JavaScript
+const fs = require('fs').promises;
+
+async function readFile() {
+  try {
+    const data = await fs.readFile('data.txt', 'utf8');
+    console.log('Вміст:', data);
+  } catch (err) {
+    console.error('Помилка:', err);
+  }
+}
+
+readFile();
+```
+
+#### Практика:
+
+- Використовується у більшості сучасних проєктів для роботи з асинхронним кодом.
+
+- Полегшує обробку помилок через `try/catch`.
+
+- Уникає “callback hell” і довгих ланцюжків `.then()`.
+
+</details>
+
+<details>
+<summary>24. У чому різниця між синхронними та асинхронними методами в модулі fs?</summary>
+
+#### Node.js
+
+**Синхронні методи** (`fs.readFileSync`, `fs.writeFileSync`):
+
+- Блокують event loop, поки операція не завершиться.
+
+- Простий код, але погано для серверних застосунків з багатьма запитами.
+
+**Асинхронні методи** (`fs.readFile`, `fs.writeFile`):
+
+- Виконуються неблокуюче.
+
+- Результат обробляється через callback, Promise або async/await.
+
+- Рекомендовані для продакшн-коду.
+
+#### Приклад:
+
+```JavaScript
+const fs = require('fs');
+
+// Асинхронно
+fs.readFile('data.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log('Async:', data);
+});
+
+// Синхронно
+const data = fs.readFileSync('data.txt', 'utf8');
+console.log('Sync:', data);
+```
+
+#### Практика:
+
+- Синхронні методи підходять для скриптів або ініціалізації під час старту
+  програми.
+
+- Асинхронні — для роботи сервера, щоб не блокувати інші запити.
+
+</details>
+
+<details>
+<summary>25. Як Node.js обробляє HTTP-запити та відповіді?</summary>
+
+#### Node.js
+
+**Node.js** використовує вбудований модуль http для створення серверів.
+
+- Сервер працює в подієво-орієнтованій моделі: на кожен запит генерується подія,
+  яку можна обробити у callback.
+
+- Об’єкт req (request) містить дані запиту (метод, заголовки, тіло).
+
+- Об’єкт res (response) використовується для формування та відправки відповіді
+  клієнту.
+
+#### Приклад:
+
+```JavaScript
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello from Node.js server!');
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
+```
+
+#### Практика:
+
+- Node.js може обробляти велику кількість одночасних HTTP-запитів завдяки
+  неблокуючій архітектурі.
+
+- Для складніших застосунків використовуються фреймворки на базі http, наприклад
+  Express.js.
+
+</details>
+
+<details>
+<summary>26. Що таке Express.js і чому він важливий для Node.js?</summary>
+
+#### Node.js
+
+**Express.js** — це мінімалістичний і гнучкий веб-фреймворк для Node.js.
+
+- Дає простіший спосіб роботи з HTTP-запитами, відповідями, маршрутизацією,
+  middleware.
+
+- Значно спрощує розробку REST API та веб-додатків.
+
+#### Чому важливий:
+
+- Зменшує кількість “ручного коду” порівняно з нативним модулем `http`.
+
+- Має велику екосистему middleware для авторизації, логування, обробки JSON,
+  статичних файлів тощо.
+
+- Де-факто стандарт у Node.js-середовищі для побудови серверних застосунків.
+
+#### Приклад:
+
+```JavaScript
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello from Express.js!');
+});
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+```
+
+У реальних проєктах Express — це "каркас" для швидкої розробки, тоді як чистий
+http модуль використовують рідко.
+
+</details>
+
+<details>
+<summary>27. Як створити RESTful API за допомогою Node.js?</summary>
+
+#### Node.js
+
+1. Використати Express.js (спрощує маршрутизацію та обробку запитів).
+
+2. Визначити ендпоінти для CRUD-операцій (Create, Read, Update, Delete).
+
+3. Використовувати JSON як формат обміну даними.
+
+4. Опціонально: підключити базу даних (MongoDB, PostgreSQL, MySQL).
+
+#### Приклад REST API (Express.js):
+
+```JavaScript
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+// Read (GET)
+app.get('/users', (req, res) => {
+  res.json([{ id: 1, name: 'Alice' }]);
+});
+
+// Create (POST)
+app.post('/users', (req, res) => {
+  const newUser = req.body;
+  res.status(201).json(newUser);
+});
+
+// Update (PUT)
+app.put('/users/:id', (req, res) => {
+  res.json({ id: req.params.id, ...req.body });
+});
+
+// Delete (DELETE)
+app.delete('/users/:id', (req, res) => {
+  res.status(204).send();
+});
+
+app.listen(3000, () => console.log('API running on http://localhost:3000'));
+```
+
+#### Ключові моменти:
+
+- Кожен ендпоінт відповідає певній операції над ресурсом.
+
+- Дані передаються у форматі JSON.
+
+- Легко масштабувати та інтегрувати з базами даних і фронтендом.
+
+</details>
+
+<details>
+<summary>28. Що таке middleware у контексті Node.js?</summary>
+
+#### Node.js
+
+**Middleware** — це функція, яка виконується між отриманням HTTP-запиту і
+відправкою відповіді в Express.js або іншому Node.js-фреймворку.
+
+- Вона може змінювати `req` і `res`, виконувати логіку (логування,
+  аутентифікація, валідація, обробка помилок) і викликати `next()` для передачі
+  керування далі.
+
+#### Приклад middleware в Express.js:
+
+```JavaScript
+const express = require('express');
+const app = express();
+
+// Кастомне middleware для логування
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next(); // передати керування наступному middleware/роуту
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello, Middleware!');
+});
+
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+```
+
+#### Ключові приклади middleware:
+
+- Вбудовані (`express.json()`, `express.urlencoded()`)
+
+- Сторонні (наприклад, `morgan`, `cors`)
+
+- Кастомні (написані вручну під бізнес-логіку)
+
+</details>
+
+<details>
+<summary>29. Як забезпечити безпеку HTTP-заголовків у Node.js?</summary>
+
+#### Node.js
+
+1. Використати `helmet` — популярний middleware для Express.js, який автоматично
+   додає та налаштовує безпечні HTTP-заголовки.
+
+```JavaScript
+const express = require('express');
+const helmet = require('helmet');
+const app = express();
+
+app.use(helmet()); // додає набір захисних заголовків
+```
+
+2. Основні заголовки для безпеки:
+
+- Content-Security-Policy (CSP) → захист від XSS.
+
+- X-Frame-Options → запобігає clickjacking.
+
+- X-Content-Type-Options → блокує MIME sniffing.
+
+- Strict-Transport-Security (HSTS) → примусове використання HTTPS.
+
+- Referrer-Policy → контроль витоку інформації у реферері.
+
+**Ключова ідея:** у Node.js зазвичай не пишуть заголовки вручну — helmet робить
+це централізовано та безпечно.
+
+</details>
+
+<details>
+<summary>30. ???</summary>
 
 #### Node.js
 
