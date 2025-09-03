@@ -1931,11 +1931,47 @@ wss.on('connection', ws => {
 </details>
 
 <details>
-<summary>55. ???</summary>
+<summary>55. Як налаштувати WebSocket-сервер у Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+1. **Використати пакет ws:**
+
+- Це найпопулярніший і легковаговий модуль для WebSocket у Node.js.
+
+2. **Код прикладу:**
+
+```JavaScript
+// Встановити: npm install ws
+const WebSocket = require('ws');
+
+// Створюємо WebSocket-сервер на порту 8080
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on('connection', ws => {
+  console.log('Клієнт підключився');
+
+  // Отримання повідомлень від клієнта
+  ws.on('message', msg => {
+    console.log(`Отримано: ${msg}`);
+  });
+
+  // Відправлення повідомлення клієнту
+  ws.send('Привіт від сервера!');
+});
+```
+
+3. **Підключення клієнта (у браузері):**
+
+```JavaScript
+const socket = new WebSocket('ws://localhost:8080');
+
+socket.onopen = () => socket.send('Hello Server');
+socket.onmessage = event => console.log(event.data);
+```
+
+Ключова ідея: налаштування WebSocket-сервера в Node.js = підключаємо ws,
+створюємо сервер і слухаємо події connection, message, close.
 
 </details>
 
