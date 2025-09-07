@@ -3086,11 +3086,77 @@ CI/CD — це практика автоматизації збірки, тес�
 </details>
 
 <details>
-<summary>90. ???</summary>
+<summary>90. Як налаштувати CI/CD пайплайн для Node.js проєкту?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+Найпростіший підхід на прикладі GitHub Actions:
+
+1. Створити конфіг файл .github/workflows/ci-cd.yml:
+
+```yaml
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@v2
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+          remote-user: ubuntu
+          server-ip: ${{ secrets.SERVER_IP }}
+          remote-path: /var/www/my-node-app
+          local-path: .
+```
+
+2. Особливості:
+
+- lint і test перевіряють код на помилки перед деплоєм.
+
+- build компілює TypeScript/фронтенд.
+
+- Деплой на сервер через SSH або хмару.
+
+- Секрети (SSH_KEY, SERVER_IP) зберігаються у GitHub Secrets.
+
+3. Можна додати:
+
+- Стейджинг середовище перед продакшном.
+
+- Docker-контейнеризацію.
+
+- Авто-рестарт сервера через PM2.
+
+Коротко: пайплайн автоматизує установку, перевірку, тестування і деплой Node.js
+додатку при кожному пуші.
 
 </details>
 
