@@ -2782,11 +2782,54 @@ Server-Side Rendering — це процес, коли HTML генеруєтьс�
 </details>
 
 <details>
-<summary>82. ???</summary>
+<summary>82. Як реалізувати RabbitMQ у Node.js?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+1. Встановлення бібліотеки: найчастіше використовують amqplib.
+
+```bash
+npm install amqplib
+```
+
+2. Підключення до RabbitMQ:
+
+```JavaScript
+const amqp = require('amqplib');
+
+async function connect() {
+  const connection = await amqp.connect('amqp://localhost');
+  const channel = await connection.createChannel();
+  const queue = 'tasks';
+
+  await channel.assertQueue(queue);
+
+  // Відправка повідомлення
+  channel.sendToQueue(queue, Buffer.from('Hello RabbitMQ!'));
+  console.log('Message sent');
+
+  // Отримання повідомлень
+  channel.consume(queue, (msg) => {
+    if (msg !== null) {
+      console.log('Received:', msg.content.toString());
+      channel.ack(msg);
+    }
+  });
+}
+
+connect().catch(console.error);
+```
+
+3. Принцип роботи:
+
+- Продюсер ставить повідомлення в чергу.
+
+- Консюмер читає повідомлення і обробляє асинхронно.
+
+- Підтримує асинхронність, балансування та повторну обробку у разі помилок.
+
+Коротко: RabbitMQ + Node.js дозволяє ефективно реалізувати асинхронну обробку
+завдань і масштабування через черги.
 
 </details>
 
