@@ -3206,11 +3206,53 @@ jobs:
 </details>
 
 <details>
-<summary>92. ???</summary>
+<summary>92. Як обробляти завантаження файлів у Node.js застосунку?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+1. Використання middleware
+
+- Найпопулярніший пакет: `multer`.
+
+```bash
+npm install multer
+```
+
+2. Налаштування Multer:
+
+```JavaScript
+const express = require('express');
+const multer = require('multer');
+const app = express();
+
+// Зберігання файлів у папку 'uploads'
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+});
+
+const upload = multer({ storage });
+
+// Маршрут для завантаження одного файлу
+app.post('/upload', upload.single('file'), (req, res) => {
+  res.send('File uploaded: ' + req.file.filename);
+});
+
+app.listen(3000);
+```
+
+3. Поради та практики:
+
+- Обмежувати розмір файлу (`limits: { fileSize: 5 * 1024 * 1024 }`).
+
+- Фільтрувати типи файлів через `fileFilter`.
+
+- Зберігати великі файли у хмарні сервіси (S3, Google Cloud Storage).
+
+- Використовувати асинхронну обробку та стріми для великих файлів.
+
+Коротко: для Node.js завантаження файлів найзручніше реалізувати через Multer,
+обробляючи валідацію, розмір та місце зберігання.
 
 </details>
 
