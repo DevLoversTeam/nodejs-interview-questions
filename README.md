@@ -3257,11 +3257,46 @@ app.listen(3000);
 </details>
 
 <details>
-<summary>93. ???</summary>
+<summary>93. Як обробляти важкі обчислювальні задачі у Node.js застосунку?</summary>
 
 #### Node.js
 
-- Coming soon...😎
+Node.js однопотоковий, тому важкі обчислення можуть блокувати Event Loop.
+Основні стратегії:
+
+1. **Worker Threads** (`worker_threads`)
+
+- Виконання CPU-інтенсивних задач у окремих потоках.
+
+```JavaScript
+const { Worker } = require('worker_threads');
+
+const worker = new Worker('./heavy-task.js');
+worker.on('message', result => console.log(result));
+```
+
+2. **Child Processes** (`child_process`)
+
+- Запуск окремих процесів для паралельних обчислень.
+
+```JavaScript
+const { fork } = require('child_process');
+const compute = fork('compute.js');
+compute.send({ data: 1000000 });
+compute.on('message', result => console.log(result));
+```
+
+3. **External services** / **Queue**
+
+- Виносити важкі задачі у черги повідомлень (RabbitMQ, Bull + Redis) і обробляти
+  асинхронно.
+
+4. **Native addons**
+
+- Для надшвидких обчислень використовують C++ addons через N-API або node-gyp.
+
+Коротко: важкі обчислення в Node.js виконують окремими потоками або процесами,
+або делегують зовнішнім сервісам, щоб не блокувати Event Loop.
 
 </details>
 
