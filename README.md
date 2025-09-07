@@ -2917,7 +2917,157 @@ Node.js додатків, дозволяючи фокусуватися на б�
 </details>
 
 <details>
-<summary>86. ???</summary>
+<summary>86. Як керувати кількома версіями Node.js на одній машині?</summary>
+
+#### Node.js
+
+- **nvm (Node Version Manager)** — найпопулярніший інструмент для Linux/macOS:
+
+```bash
+nvm install 18
+nvm use 18
+nvm alias default 18
+```
+
+- **nvm-windows** — аналог для Windows.
+
+- **Volta** — швидкий менеджер версій для Node.js, NPM та Yarn.
+
+- **fnm (Fast Node Manager)** — альтернативний легкий менеджер версій.
+
+Коротко: використовують менеджери версій (nvm, Volta, fnm), щоб встановлювати,
+перемикати і фіксувати версії Node.js для різних проєктів.
+
+</details>
+
+<details>
+<summary>87. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>88. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>89. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>90. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>91. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>92. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>93. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>94. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>95. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>96. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>97. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>98. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>99. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>100. ???</summary>
+
+#### Node.js
+
+- Coming soon...😎
+
+</details>
+
+<details>
+<summary>101. ???</summary>
 
 #### Node.js
 
